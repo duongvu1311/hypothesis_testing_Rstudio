@@ -1,7 +1,7 @@
 # hypothesis_testing_Rstudio
 Using RStudio to conduct basic hypothesis testing
 
-First, we need to load the packages.
+First, we need to load the relevant packages.
 ```r
 library(tidyverse)
 library(gapminder) #this is the dataset that we use to explore.
@@ -16,6 +16,7 @@ gapminder %>%
   t.test(mu = 50, conf.level = 0.95)
 ```
 ![Screenshot-2023-12-18-at-10-17-39-PM.png](https://i.postimg.cc/W45zxdcg/Screenshot-2023-12-18-at-10-17-39-PM.png)
+
 As p-value < 0.05, we rejected the null hypothesis and concluded that mean life expectancy in Africa is not equal to 50 years.
 
 ## 2. Two-sample T-test
@@ -32,6 +33,7 @@ vietsing <- gapminder %>%
 t.test(lifeExp ~ country, data=vietsing)
 ```
 ![Screenshot-2023-12-18-at-10-23-08-PM.png](https://i.postimg.cc/k5Z3VSrn/Screenshot-2023-12-18-at-10-23-08-PM.png)
+
 As p-value < 0.05, we concluded that the means in life expectancy of Vietnam and Singapore are significantly different.
 
 Then, another type of two-sample t-test is Paired T-test, which compares the mean difference of the same participants but in different times. 
@@ -54,6 +56,7 @@ Asia <- gapminder %>%
 t.test(lifeExp ~ year, data = Asia, paired = TRUE)
 ```
 ![Screenshot-2023-12-18-at-10-28-04-PM.png](https://i.postimg.cc/bNC4sbfs/Screenshot-2023-12-18-at-10-28-04-PM.png)
+
 Again, p-value here is less than 0.05, hence, we conclude that the mean in life expectancy of Asian countries in 1957 is significantly different from 2007.
 
 ## 3. One-way ANOVA T-test
@@ -70,17 +73,25 @@ aov <- aov(lifeExp ~ continent, data=anova_data)
 summary(aov)
 ```
 ![Screenshot-2023-12-18-at-10-33-09-PM.png](https://i.postimg.cc/02SPRcw9/Screenshot-2023-12-18-at-10-33-09-PM.png)
+
 As p-value is significant, we conclude that there is at least 1 mean difference in life expectancy among Asia, Europe, and Americas. Then, we need to conduct post-hoc test to find out exactly which pairs are significant.
 ```r
 #Post-hoc test to find out which pairs are significant
 TukeyHSD(aov)
 ```
 ![Screenshot-2023-12-18-at-10-35-33-PM.png](https://i.postimg.cc/250Vb2GP/Screenshot-2023-12-18-at-10-35-33-PM.png)
+
 The adjusted p-values are all 0 < 0.05, hence, it is significant that all 3 pairs are different in the means of life expectancy.
 
 ## 4. Visualize the mean and distribution using density plot
 For example, we want to visualize the mean and distribution of life expectancy for Asia and Europe, we need to use geom_density() to plot it in a density plot, and geom_vline to display the mean line of each continent.
 ```r
+#First, we need to get the mean of life expectancy for each continent: Asia & Europe
+continent_mean <- gapminder %>% 
+  filter(continent %in% c("Asia", "Europe")) %>% 
+  group_by(continent) %>% 
+  summarise(mean_le = mean(lifeExp))
+
 #Density plot only for Asia & Europe
 gapminder %>%
   filter(continent %in% c("Asia", "Europe")) %>% 
