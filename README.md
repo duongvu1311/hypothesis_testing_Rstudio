@@ -6,7 +6,7 @@ First, we need to load the packages.
 library(tidyverse)
 library(gapminder) #this is the dataset that we use to explore.
 ```
-##1. One-sample T-test
+## 1. One-sample T-test
 ```r
 #H0: The mean life expectancy in Africa is 50 years.
 #H1: The mean life expectancy in Africa is not 50 years.
