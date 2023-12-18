@@ -15,3 +15,4 @@ gapminder %>%
   select(lifeExp) %>% 
   t.test(mu = 50, conf.level = 0.95)
 ```
+![Screenshot-2023-12-18-at-10-17-39-PM.png](https://i.postimg.cc/W45zxdcg/Screenshot-2023-12-18-at-10-17-39-PM.png)
