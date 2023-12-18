@@ -2,7 +2,7 @@
 Using RStudio to conduct basic hypothesis testing
 
 First, we need to load the packages.
-```r
+```rstudio
 library(tidyverse)
 library(gapminder)
 ```
